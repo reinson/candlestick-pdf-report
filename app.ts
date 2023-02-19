@@ -1,4 +1,5 @@
 import express from 'express';
+import { genrateRoute } from './src/generate-route';
 import { createPDF } from './src/pdf-generator';
 
 const app = express()
@@ -14,6 +15,8 @@ app.get('/', async (req, res) => {
 
   res.send(pdf);
 })
+
+app.get('/generate', genrateRoute);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
