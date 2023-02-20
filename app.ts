@@ -51,8 +51,9 @@ function sayHi(name) {
 
 app.get('/ejs', (request, response) => {
   const filePath = path.join(__dirname, "../src/print.ejs")
-  console.log(filePath);
-  ejs.renderFile(filePath, { passengers, sayHi }, (err, html) => {
+  const svg = generateD3Report();
+
+  ejs.renderFile(filePath, { passengers, sayHi, svg }, (err, html) => {
     if (err) {
       console.log("🚀 ~ file: app.ts:56 ~ ejs.renderFile ~ err", err)
       return response.send('Cannot read file')
@@ -64,7 +65,6 @@ app.get('/ejs', (request, response) => {
 })
 
 app.get('/print', async (request, response) => {
-  generateD3Report();
 
   await printPdf();
   response.send('done');

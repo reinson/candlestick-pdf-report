@@ -1,6 +1,5 @@
 import * as d3 from 'd3';
 import jsdom from 'jsdom';
-import fs from 'fs';
 
 export const generateD3Report = () => {
     const { JSDOM } = jsdom;
@@ -23,5 +22,5 @@ export const generateD3Report = () => {
         .style('stroke', 'rgb(255,0,0)')
         .style('stroke-width', 2);
 
-    fs.writeFileSync('./src/test-1234.svg', body.node().innerHTML)
+    return body.node().innerHTML;
 }
