@@ -4,6 +4,7 @@ import { createPDF } from './src/pdf-generator';
 import ejs from 'ejs';
 import path from 'path';
 import { printPdf } from './src/print';
+import { generateD3Report } from './src/d3Report';
 
 const app = express()
 const port = 3000
@@ -44,11 +45,16 @@ const passengers = [
   },
 ];
 
+function sayHi(name) {
+  return 'Hello ' + name;
+}
+
 app.get('/ejs', (request, response) => {
   const filePath = path.join(__dirname, "../src/print.ejs")
   console.log(filePath);
-  ejs.renderFile(filePath, { passengers }, (err, html) => {
+  ejs.renderFile(filePath, { passengers, sayHi }, (err, html) => {
     if (err) {
+      console.log("🚀 ~ file: app.ts:56 ~ ejs.renderFile ~ err", err)
       return response.send('Cannot read file')
     }
 
@@ -58,7 +64,8 @@ app.get('/ejs', (request, response) => {
 })
 
 app.get('/print', async (request, response) => {
-  await printPdf();
+  generateD3Report();
 
+  await printPdf();
   response.send('done');
 })
