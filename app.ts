@@ -15,9 +15,9 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
-app.get('/ejs', (request, response) => {
+app.get('/ejs', async (request, response) => {
   const filePath = path.join(__dirname, "../src/print.ejs")
-  const data = getData();
+  const data = await getData();
   const svg = candlestickChart(data, { yLabel: 'USD' });
 
   ejs.renderFile(filePath, { svg }, (err, html) => {
