@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "proxy": "http://localhost:3001",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc -b",
-    "start": "./node_modules/nodemon/bin/nodemon.js dist/app.js"
+    "start": "./node_modules/nodemon/bin/nodemon.js dist/app.js",
+    "start:fe": "cd ./client && npm start"
   },
   "keywords": [],
   "author": "Tormi Reinson",
@@ -24,6 +26,7 @@
     "@types/d3": "7.4.0",
     "@types/jsdom": "21.1.0",
     "axios": "1.3.4",
+    "create-react-app": "5.0.1",
     "d3": "6.7.0",
     "ejs": "3.1.8",
     "express": "4.17.1",

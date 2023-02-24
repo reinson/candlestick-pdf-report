@@ -6,8 +6,8 @@ import { printPdf } from './src/print';
 import { candlestickChart } from './src/candlestick';
 import { getData } from './src/coinapi';
 
-const app = express()
-const port = 3000
+const app = express();
+const port = 3001;
 
 app.get('/generate', genrateRoute);
 
@@ -16,17 +16,16 @@ app.listen(port, () => {
 })
 
 app.get('/ejs', async (request, response) => {
-  const filePath = path.join(__dirname, "../src/print.ejs")
+  const filePath = path.join(__dirname, "../src/print.ejs");
   const data = await getData();
   const svg = candlestickChart(data, { yLabel: 'USD' });
 
   ejs.renderFile(filePath, { svg }, (err, html) => {
     if (err) {
-      console.log("🚀 ~ file: app.ts:56 ~ ejs.renderFile ~ err", err)
-      return response.send('Cannot read file')
+      return response.send('Cannot read file');
     }
 
-    return response.send(html)
+    return response.send(html);
   })
 
 })

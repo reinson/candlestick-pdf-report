@@ -1,7 +1,7 @@
 import axios from 'axios';
 import fs from 'fs';
 
-const COINAPI_URL = 'https://rest.coinapi.io/v1/exchangerate/BTC/USD/history';
+const COINAPI_URL = 'https://rest.coinapi.io/v1/exchangerate/EUR/USD/history';
 const token = readToken('token.txt');
 
 type ApiQuote = {
@@ -57,8 +57,8 @@ export const getData = async (writeToFile?: boolean): Promise<Quote[]> => {
     console.log('getting data')
     const { data } = await axios.get(COINAPI_URL, {
         params: {
-            period_id: '1DAY',
-            time_start: '2023-01-01T00:00:00',
+            period_id: '10DAY',
+            time_start: '2021-01-01T00:00:00',
             time_end: '2023-02-23T00:00:00'
         },
         headers: {
