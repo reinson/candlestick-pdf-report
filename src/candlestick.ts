@@ -12,7 +12,6 @@ export function candlestickChart(quotesData: Quote[], {
     width = 800, // outer width, in pixels
     height = 500, // outer height, in pixels
     xRange = [marginLeft, width - marginRight], // [left, right]
-    xFormat = "%b %-d", // a format specifier for the date on the x-axis
     yFormat = "~f", // a format specifier for the value on the y-axis
     yLabel = '', // a label for the y-axis
     stroke = "currentColor", // stroke color for the daily rule
@@ -25,7 +24,7 @@ export function candlestickChart(quotesData: Quote[], {
     // Create scales and axis
     const xScale = d3.scaleTime().domain(xDomain).range(xRange);
     const yScale = d3.scaleLinear(yDomain, [height - marginBottom, marginTop]);
-    const xAxis = d3.axisBottom(xScale).tickFormat(d3.utcFormat(xFormat));
+    const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisLeft(yScale).ticks(height / 40, yFormat);
 
     const { JSDOM } = jsdom;
