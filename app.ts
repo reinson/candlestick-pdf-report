@@ -1,12 +1,10 @@
 import express from 'express';
-import { generateRoute, generateRouteValidation } from './src/generate-route';
-import { downloadRoute } from './src/download-route';
+import { generateRoute, generateRouteValidation } from './src/routes/generate-route';
+import { downloadRoute } from './src/routes/download-route';
 import { query } from 'express-validator';
-import { statusRoute } from './src/status-route';
+import { statusRoute } from './src/routes/status-route';
 
-export const quaryHasId = [
-  query('id').isString(),
-];
+const quaryHasId = [query('id').isString()];
 
 const app = express();
 const port = 3001;

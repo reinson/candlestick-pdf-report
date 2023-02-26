@@ -1,14 +1,19 @@
 import { Request, Response } from 'express';
-import { ERR_UNKNOWN_JOB, getJobStatus } from './model';
+import path from 'path';
+import { ERR_UNKNOWN_JOB, getJobStatus, JobStatus } from '../model';
 
-export const statusRoute = async (req: Request, res: Response) => {
+export const downloadRoute = async (req: Request, res: Response) => {
     const id = req.query.id;
-
-    console.log('reading status', id)
 
     try {
         const status = getJobStatus(id as string);
-        res.send({ status });
+
+        if (status !== JobStatus.Done) {
+            throw new Error('Job not done');
+        }
+
+        const reportPath = path.join(__dirname, `../../../reports/${id}.pdf`);
+        res.download(reportPath);
     } catch (err) {
         if (err.message === ERR_UNKNOWN_JOB) {
             res.status(400);

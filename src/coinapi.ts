@@ -1,6 +1,6 @@
 import axios from 'axios';
 import fs from 'fs';
-import { TimePeriod } from './generate-route';
+import { TimePeriod } from './routes/generate-route';
 
 const token = readToken('token.txt');
 

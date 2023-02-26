@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { JobStatus, startJob, updateJobStatus } from './model';
+import { JobStatus, startJob, updateJobStatus } from '../model';
 import path from 'path';
 import ejs from 'ejs';
-import { getData } from './coinapi';
-import { candlestickChart } from './candlestick';
+import { getData } from '../coinapi';
+import { candlestickChart } from '../candlestick';
 import { writeFile } from 'fs';
 import { query, validationResult } from 'express-validator';
 import puppeteer from 'puppeteer';
@@ -38,7 +38,7 @@ export const generateRoute = (req: Request, res: Response) => {
 };
 
 const createHTML = async (coin: string, period: TimePeriod, id: string) => {
-    const filePath = path.join(__dirname, '../../src/print.ejs');
+    const filePath = path.join(__dirname, '../../../src/print.ejs');
     const data = await getData(coin, period);
     const svg = candlestickChart(data, { yLabel: 'USD' });
 
@@ -59,7 +59,7 @@ const createHTML = async (coin: string, period: TimePeriod, id: string) => {
 
     await browser.close()
 
-    const reportPath = path.join(__dirname, `../../reports/${id}.pdf`);
+    const reportPath = path.join(__dirname, `../../../reports/${id}.pdf`);
     writeFile(reportPath, pdf, {}, (err) => {
         if (err) {
             throw err;
