@@ -42,7 +42,7 @@ export const generateRoute = async (req: Request, res: Response) => {
 };
 
 const createHTML = async (coin: string, period: TimePeriod, id: string) => {
-    const filePath = path.join(__dirname, '../../../src/print.ejs');
+    const filePath = path.join(__dirname, '../../../src/template.ejs');
     const data = await getData(coin, period);
     const svg = candlestickChart(data);
 
