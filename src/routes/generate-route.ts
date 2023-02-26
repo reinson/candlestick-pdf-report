@@ -26,6 +26,7 @@ export const generateRoute = (req: Request, res: Response) => {
     if (!validation.isEmpty()) {
         res.status(400);
         res.send(validation.array());
+        return;
     }
 
     const id = startJob();
