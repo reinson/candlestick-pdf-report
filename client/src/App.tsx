@@ -12,8 +12,6 @@ function App() {
   const [reportId, setReportId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>('');
 
-  const generalErrorHandler = () => setError('Something went wrong');
-
   const onSubmit = async () => {
     if (isLoading) {
       return;
@@ -22,7 +20,7 @@ function App() {
     setIsLoading(true);
     setReportId(null);
 
-    const jobId = await makeGenerateRequest(selectedCoin?.key, timePeriod?.key).catch(generalErrorHandler);
+    const jobId = await makeGenerateRequest(selectedCoin?.key, timePeriod?.key).catch(() => setError('Something went wrong'));
 
     while (jobId && !error) {
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -73,6 +71,10 @@ const makeGenerateRequest = async (coin: string | undefined, period: string | un
       "Content-Type": "application/json",
     }
   });
+
+  if (!result.ok) {
+    throw new Error();
+  }
 
   return await result.text();
 }

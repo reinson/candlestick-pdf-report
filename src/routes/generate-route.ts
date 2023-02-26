@@ -37,14 +37,15 @@ export const generateRoute = async (req: Request, res: Response) => {
 
     try {
         await createReport(coin as string, period as TimePeriod, id);
-        updateJobStatus(id, JobStatus.Done)
-    } catch (err) {
-        console.log(err)
-        updateJobStatus(id, JobStatus.Failed);
-    }
+        updateJobStatus(id, JobStatus.Done);
 
-    res.set('content-type', 'text/plain');
-    res.send(id);
+        res.set('content-type', 'text/plain');
+        res.send(id);
+    } catch (err) {
+        console.log(err);
+        updateJobStatus(id, JobStatus.Failed);
+        res.sendStatus(500);
+    }
 };
 
 const createReport = async (coin: string, period: TimePeriod, id: string) => {
