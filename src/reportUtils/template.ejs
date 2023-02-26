@@ -9,10 +9,14 @@
 		<style>
 			body {
 				padding: 20px;
+				font-family: Verdana;
 			}
 			.title {
 				font-size: 40px;
 				color: rgb(24, 24, 24);
+				margin-bottom: 20px;
+			}
+			.description {
 				margin-bottom: 20px;
 			}
 		</style>
@@ -25,6 +29,12 @@
 			/>
 			<span><%= coinData.label %> price report</span>
 		</div>
+		<ul class="description">
+			<li>Data about the past <b><%= periodData.label %></b> is shown,
+				starting from <b><%= new Date(periodData.startDate).toLocaleDateString("en-GB", {year: 'numeric', month: 'long', day: 'numeric'} ) %></b>
+			</li>
+			<li>Each candle corresponds to <b><%= periodData.stepLabel %></b></li>
+		</ul>
 		<%- svg %>
 	</body>
 </html>

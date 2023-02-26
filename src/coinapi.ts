@@ -27,18 +27,18 @@ export type Quote = {
     }
 }
 
-const getPeriodOptions = (key: TimePeriod) => {
+export const getPeriodOptions = (key: TimePeriod) => {
     switch (key) {
         case TimePeriod.DAY:
-            return { periodId: '15MIN', startDate: substractDaysFromNow(1) };
+            return { periodId: '15MIN', startDate: substractDaysFromNow(1), stepLabel: '15 minutes', label: 'day' };
         case TimePeriod.WEEK:
-            return { periodId: '4HRS', startDate: substractDaysFromNow(7) };
+            return { periodId: '4HRS', startDate: substractDaysFromNow(7), stepLabel: '4 hours', label: 'week' };
         case TimePeriod.MONTH:
-            return { periodId: '1DAY', startDate: substractDaysFromNow(30) };
+            return { periodId: '1DAY', startDate: substractDaysFromNow(30), stepLabel: '1 day', label: 'month' };
         case TimePeriod.QUARTER:
-            return { periodId: '1DAY', startDate: substractDaysFromNow(90)};
+            return { periodId: '1DAY', startDate: substractDaysFromNow(90), stepLabel: '1 day', label: 'quarter'};
         case TimePeriod.YEAR:
-            return { periodId: '7DAY', startDate: substractDaysFromNow(365) };
+            return { periodId: '7DAY', startDate: substractDaysFromNow(365), stepLabel: '7 days', label: 'year' };
     }
 }
 

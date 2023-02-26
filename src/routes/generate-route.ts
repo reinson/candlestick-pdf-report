@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { JobStatus, startJob, updateJobStatus } from '../jobsModel';
 import path from 'path';
 import ejs from 'ejs';
-import { getData } from '../coinapi';
+import { getData, getPeriodOptions } from '../coinapi';
 import { candlestickChart } from '../reportUtils/candlestick';
 import { writeFileSync } from 'fs';
 import { body, validationResult } from 'express-validator';
@@ -53,7 +53,8 @@ const createReport = async (coin: string, period: TimePeriod, id: string) => {
     const svg = candlestickChart(data);
 
     const templatePath = path.join(__dirname, '../../../src/reportUtils/template.ejs');
-    const html = await ejs.renderFile(templatePath, { svg, coinData: coinLookup[coin] });
+    const periodData = getPeriodOptions(period);
+    const html = await ejs.renderFile(templatePath, { svg, coinData: coinLookup[coin], periodData });
 
     const pdf = await createPdf(html);
 
