@@ -9,6 +9,8 @@ const quaryHasId = [query('id').isString()];
 const app = express();
 const port = 3001;
 
+app.use(express.static('public'));
+
 app.get('/generate', generateRouteValidation, generateRoute);
 
 app.get('/download', quaryHasId, downloadRoute)

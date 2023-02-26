@@ -43,8 +43,8 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Generate crypto price report</h1>
-      <div style={{ width: '200px' }}>
+      <h1>Crypto price report</h1>
+      <div style={{ width: '220px' }}>
         <CoinSelect setSelectedCoin={setSelectedCoin} />
         <PeriodSelect setSelectedPeriod={setTimePeriod} />
         {showSubmitButton && <Button onClick={onSubmit} loading={isLoading} />}

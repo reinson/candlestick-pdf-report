@@ -13,7 +13,6 @@ export function candlestickChart(quotesData: Quote[], {
     height = 500, // outer height, in pixels
     xRange = [marginLeft, width - marginRight], // [left, right]
     yFormat = "~f", // a format specifier for the value on the y-axis
-    yLabel = '', // a label for the y-axis
     stroke = "currentColor", // stroke color for the daily rule
     colors = ["#4daf4a", "#999999", "#e41a1c"] // [up, no change, down]
 } = {}) {
@@ -56,7 +55,7 @@ export function candlestickChart(quotesData: Quote[], {
             .attr("y", 10)
             .attr("fill", "currentColor")
             .attr("text-anchor", "start")
-            .text(yLabel));
+            .text('USD'));
 
     const g = svg.append("g")
         .attr("stroke", stroke)

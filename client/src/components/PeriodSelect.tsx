@@ -19,11 +19,11 @@ export type TimePeriodOption = {
 }
 
 const timePeriodOptions: TimePeriodOption[] = [
-    { key: TimePeriod.DAY, label: '1 day' },
-    { key: TimePeriod.WEEK, label: '1 week' },
-    { key: TimePeriod.MONTH, label: '1 month' },
-    { key: TimePeriod.QUARTER, label: '1 quarter' },
-    { key: TimePeriod.YEAR, label: '1 year' },
+    { key: TimePeriod.DAY, label: 'Day' },
+    { key: TimePeriod.WEEK, label: 'Week' },
+    { key: TimePeriod.MONTH, label: 'Month' },
+    { key: TimePeriod.QUARTER, label: 'Quarter' },
+    { key: TimePeriod.YEAR, label: 'Year' },
 ]
 
 const formatOptionLabel = ({ label }: TimePeriodOption) => (

@@ -7,6 +7,7 @@ import { candlestickChart } from '../candlestick';
 import { writeFile } from 'fs';
 import { query, validationResult } from 'express-validator';
 import puppeteer from 'puppeteer';
+import options from '../../public/options.json';
 
 export enum TimePeriod {
     DAY = 'DAY',
@@ -17,9 +18,11 @@ export enum TimePeriod {
 }
 
 export const generateRouteValidation = [
-    query('coin').isIn(['BTC', 'ETH']),
+    query('coin').isIn(options.map(option => option.value)),
     query('period').isIn(Object.values(TimePeriod))
 ];
+
+const coinLookup = Object.fromEntries(options.map(option => [option.value, option]));
 
 export const generateRoute = (req: Request, res: Response) => {
     const validation = validationResult(req);
@@ -41,9 +44,9 @@ export const generateRoute = (req: Request, res: Response) => {
 const createHTML = async (coin: string, period: TimePeriod, id: string) => {
     const filePath = path.join(__dirname, '../../../src/print.ejs');
     const data = await getData(coin, period);
-    const svg = candlestickChart(data, { yLabel: 'USD' });
+    const svg = candlestickChart(data);
 
-    const html = await ejs.renderFile(filePath, { svg });
+    const html = await ejs.renderFile(filePath, { svg, coinData: coinLookup[coin] });
 
     const browser = await puppeteer.launch({
         headless: true,
