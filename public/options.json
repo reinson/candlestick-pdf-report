@@ -2,7 +2,6 @@
     { "key": "USDT", "label": "Tether", "icon": "5ed65416963e4e57998a3c302da8936e.png" },
     { "key": "BTC", "label": "Bitcoin", "icon": "4caf2b16a0174e26a3482cea69c34cba.png" },
     { "key": "ETH", "label": "Ethereum", "icon": "604ae4533d9f4ad09a489905cce617c2.png" },
-    { "key": "GVC", "label": "GVC", "icon": "4db8815778ae49e589e8b2551d7235c8.png" },
     { "key": "GNT", "label": "Golem", "icon": "5aa9229d63c643409bbfefe0754863ea.png" },
     { "key": "SPACE", "label": "SpaceCoin", "icon": "34610a48dc194f0997283d4193b29e27.png" },
     { "key": "CPC", "label": "CPChain", "icon": "d3d3b0e7441b42d7a30b567b346f86c2.png" },

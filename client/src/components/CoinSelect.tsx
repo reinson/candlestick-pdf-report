@@ -45,6 +45,7 @@ export default function CoinSelect({ setSelectedCoin }: CoinSelectProps) {
                 options={options}
                 formatOptionLabel={formatOptionLabel}
                 placeholder=''
+                getOptionValue={option => option.key}
             />
         </div>
     );
