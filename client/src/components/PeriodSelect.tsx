@@ -1,6 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
-import styles from './PeriodSelect.module.css';
+import styles from './Select.module.css';
 
 export enum TimePeriod {
     DAY = 'DAY',
@@ -34,7 +34,7 @@ const formatOptionLabel = ({ label }: TimePeriodOption) => (
 
 export default function PeriodSelect({ setSelectedPeriod }: PeriodSelectProps) {
     return (
-        <div className={styles.periodSelect}>
+        <div className={styles.selectWrapper}>
             <span>Select period: </span>
             <Select<TimePeriodOption>
                 className={styles.select}

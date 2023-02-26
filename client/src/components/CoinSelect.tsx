@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
-import styles from './CoinSelect.module.css';
+import styles from './Select.module.css';
 
 type CoinSelectProps = {
     setSelectedCoin: (coin: CoinOption | null) => void
@@ -15,7 +15,7 @@ export type CoinOption = {
 const iconURLBase = 'https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_32/';
 
 const formatOptionLabel = ({ label, icon }: CoinOption) => (
-    <div className={styles.coinOption}>
+    <div className={styles.option}>
         <img className={styles.icon} src={`${iconURLBase}${icon}`} alt={`${label}-icon`}></img>
         <span>{label}</span>
     </div>
@@ -36,9 +36,9 @@ export default function CoinSelect({ setSelectedCoin }: CoinSelectProps) {
     }, [])
 
     return (
-        <div className={styles.coinSelect}>
+        <div className={styles.selectWrapper}>
             <span>Select coin: </span>
-            <Select
+            <Select<CoinOption>
                 className={styles.select}
                 isSearchable={true}
                 onChange={setSelectedCoin}
