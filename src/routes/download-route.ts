@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import path from 'path';
-import { ERR_UNKNOWN_JOB, getJobStatus, JobStatus } from '../model';
+import { ERR_UNKNOWN_JOB, getJobStatus, JobStatus } from '../jobsModel';
 
 export const downloadRoute = async (req: Request, res: Response) => {
     const id = req.query.id;

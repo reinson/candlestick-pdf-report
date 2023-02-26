@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ERR_UNKNOWN_JOB, getJobStatus } from '../model';
+import { ERR_UNKNOWN_JOB, getJobStatus } from '../jobsModel';
 
 export const statusRoute = async (req: Request, res: Response) => {
     const id = req.query.id;

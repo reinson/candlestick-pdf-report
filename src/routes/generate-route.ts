@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { JobStatus, startJob, updateJobStatus } from '../model';
+import { JobStatus, startJob, updateJobStatus } from '../jobsModel';
 import path from 'path';
 import ejs from 'ejs';
 import { getData } from '../coinapi';
