@@ -30,7 +30,7 @@ export type Quote = {
 export const getPeriodOptions = (key: TimePeriod) => {
     switch (key) {
         case TimePeriod.DAY:
-            return { periodId: '15MIN', startDate: substractDaysFromNow(1), stepLabel: '15 minutes', label: 'day' };
+            return { periodId: '1HRS', startDate: substractDaysFromNow(1), stepLabel: '1 hour', label: 'day' };
         case TimePeriod.WEEK:
             return { periodId: '4HRS', startDate: substractDaysFromNow(7), stepLabel: '4 hours', label: 'week' };
         case TimePeriod.MONTH:
