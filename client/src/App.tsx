@@ -19,7 +19,7 @@ function App() {
     setIsLoading(true);
     setReportId(null);
 
-    const result = await fetch(`/generate?coin=${selectedCoin?.value}&period=${timePeriod?.key}`);
+    const result = await fetch(`/generate?coin=${selectedCoin?.key}&period=${timePeriod?.key}`);
     const jobId = await result.text();
 
     while (true) {

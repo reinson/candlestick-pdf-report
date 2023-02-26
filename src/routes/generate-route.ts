@@ -18,11 +18,11 @@ export enum TimePeriod {
 }
 
 export const generateRouteValidation = [
-    query('coin').isIn(options.map(option => option.value)),
+    query('coin').isIn(options.map(option => option.key)),
     query('period').isIn(Object.values(TimePeriod))
 ];
 
-const coinLookup = Object.fromEntries(options.map(option => [option.value, option]));
+const coinLookup = Object.fromEntries(options.map(option => [option.key, option]));
 
 export const generateRoute = (req: Request, res: Response) => {
     const validation = validationResult(req);

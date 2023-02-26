@@ -9,7 +9,7 @@ type CoinSelectProps = {
 export type CoinOption = {
     label: string;
     icon: string;
-    value: string;
+    key: string;
 }
 
 const iconURLBase = 'https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_32/';
