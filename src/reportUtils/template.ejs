@@ -34,6 +34,9 @@
 				starting from <b><%= new Date(periodData.startDate).toLocaleDateString("en-GB", {year: 'numeric', month: 'long', day: 'numeric'} ) %></b>
 			</li>
 			<li>Each candle corresponds to <b><%= periodData.stepLabel %></b></li>
+			<li>Lines show high and low values for the period</li>
+			<li>Edges of colored boxes correspond to open and close prices</li>
+			<li> <span style="color:#4daf4a">Green</span> indicates price increase and <span style="color:#e41a1c">red</span> price decrease</li>
 		</ul>
 		<%- svg %>
 	</body>
