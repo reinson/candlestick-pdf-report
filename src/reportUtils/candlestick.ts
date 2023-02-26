@@ -11,8 +11,6 @@ export function candlestickChart(quotesData: Quote[], {
     marginLeft = 40, // left margin, in pixels
     width = 800, // outer width, in pixels
     height = 500, // outer height, in pixels
-    xRange = [marginLeft, width - marginRight], // [left, right]
-    yFormat = "~f", // a format specifier for the value on the y-axis
     stroke = "currentColor", // stroke color for the daily rule
     colors = ["#4daf4a", "#999999", "#e41a1c"] // [up, no change, down]
 } = {}) {
@@ -21,10 +19,11 @@ export function candlestickChart(quotesData: Quote[], {
     const yDomain = [d3.min(quotesData, (d: Quote) => d.rate.low), d3.max(quotesData, (d: Quote) => d.rate.high)];
 
     // Create scales and axis
+    const xRange = [marginLeft, width - marginRight];
     const xScale = d3.scaleTime().domain(xDomain).range(xRange);
     const yScale = d3.scaleLinear(yDomain, [height - marginBottom, marginTop]);
     const xAxis = d3.axisBottom(xScale);
-    const yAxis = d3.axisLeft(yScale).ticks(height / 40, yFormat);
+    const yAxis = d3.axisLeft(yScale).ticks(height / 40);
 
     const { JSDOM } = jsdom;
     const { document } = (new JSDOM('')).window;
