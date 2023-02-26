@@ -10,8 +10,9 @@ const app = express();
 const port = 3001;
 
 app.use(express.static('public'));
+app.use(express.json());
 
-app.get('/generate', generateRouteValidation, generateRoute);
+app.post('/generate', generateRouteValidation, generateRoute);
 
 app.get('/download', quaryHasId, downloadRoute)
 

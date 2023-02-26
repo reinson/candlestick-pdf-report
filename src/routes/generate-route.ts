@@ -5,7 +5,7 @@ import ejs from 'ejs';
 import { getData } from '../coinapi';
 import { candlestickChart } from '../candlestick';
 import { writeFile } from 'fs';
-import { query, validationResult } from 'express-validator';
+import { body, validationResult } from 'express-validator';
 import puppeteer from 'puppeteer';
 import options from '../../public/options.json';
 
@@ -18,13 +18,13 @@ export enum TimePeriod {
 }
 
 export const generateRouteValidation = [
-    query('coin').isIn(options.map(option => option.key)),
-    query('period').isIn(Object.values(TimePeriod))
+    body('coin').isIn(options.map(option => option.key)),
+    body('period').isIn(Object.values(TimePeriod))
 ];
 
 const coinLookup = Object.fromEntries(options.map(option => [option.key, option]));
 
-export const generateRoute = (req: Request, res: Response) => {
+export const generateRoute = async (req: Request, res: Response) => {
     const validation = validationResult(req);
     if (!validation.isEmpty()) {
         res.status(400);
@@ -33,7 +33,7 @@ export const generateRoute = (req: Request, res: Response) => {
     }
 
     const id = startJob();
-    const { coin, period } = req.query;
+    const { coin, period } = req.body;
 
     createHTML(coin as string, period as TimePeriod, id);
 

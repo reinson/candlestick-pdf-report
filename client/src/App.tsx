@@ -10,6 +10,9 @@ function App() {
   const [timePeriod, setTimePeriod] = useState<TimePeriodOption | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [reportId, setReportId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>('');
+
+  const generalErrorHandler = () => setError('Something went wrong');
 
   const onSubmit = async () => {
     if (isLoading) {
@@ -19,39 +22,59 @@ function App() {
     setIsLoading(true);
     setReportId(null);
 
-    const result = await fetch(`/generate?coin=${selectedCoin?.key}&period=${timePeriod?.key}`);
-    const jobId = await result.text();
+    const jobId = await makeGenerateRequest(selectedCoin?.key, timePeriod?.key).catch(generalErrorHandler);
 
-    while (true) {
+    while (jobId && !error) {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       const result = await fetch(`/status?id=${jobId}`);
       const { status } = await result.json();
 
-      if (status === 'DONE') {
-        setReportId(`http://localhost:3001/download?id=${jobId}`);
+      switch (status) {
+        case 'DONE': {
+          setReportId(`http://localhost:3001/download?id=${jobId}`);
+          setIsLoading(false);
+          return;
+        }
 
-        setIsLoading(false);
-        return;
+        case 'FAILED': {
+          setError('Report generation failed');
+          return;
+        }
       }
-
-      // handle errors
     }
   }
 
-  const showSubmitButton = selectedCoin && timePeriod;
+  const showSubmitButton = selectedCoin && timePeriod && !error;
 
   return (
-    <div className="App">
+    <div className='App'>
       <h1>Crypto price report</h1>
       <div style={{ width: '220px' }}>
         <CoinSelect setSelectedCoin={setSelectedCoin} />
         <PeriodSelect setSelectedPeriod={setTimePeriod} />
         {showSubmitButton && <Button onClick={onSubmit} loading={isLoading} />}
-        {reportId && <a href={reportId}>download</a>}
+        {reportId && !error && <a href={reportId}>download</a>}
+        {error && <div style={{ color: 'red' }}>{error}</div>}
       </div>
     </div>
   );
+}
+
+const makeGenerateRequest = async (coin: string | undefined, period: string | undefined) => {
+  if (!coin || !period) {
+    throw new Error('Missing input data');
+  }
+
+  const result = await fetch('/generate', {
+    method: 'POST',
+    body: JSON.stringify({ coin, period }),
+    headers: {
+      "Content-Type": "application/json",
+    }
+  });
+
+  return await result.text();
 }
 
 export default App;
