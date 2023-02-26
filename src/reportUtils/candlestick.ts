@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import jsdom from 'jsdom';
-import { Quote } from './coinapi';
+import { Quote } from '../coinapi';
 
 // Based on: https://observablehq.com/@d3/candlestick-chart
 
