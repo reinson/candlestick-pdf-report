@@ -1,37 +1,22 @@
 import express from 'express';
-import { genrateRoute } from './src/generate-route';
-import ejs from 'ejs';
-import path from 'path';
-import { printPdf } from './src/print';
-import { candlestickChart } from './src/candlestick';
-import { getData } from './src/coinapi';
+import { generateRoute, generateRouteValidation } from './src/generate-route';
+import { downloadRoute } from './src/download-route';
+import { query } from 'express-validator';
+import { statusRoute } from './src/status-route';
+
+export const quaryHasId = [
+  query('id').isString(),
+];
 
 const app = express();
 const port = 3001;
 
-app.get('/generate', genrateRoute);
+app.get('/generate', generateRouteValidation, generateRoute);
+
+app.get('/download', quaryHasId, downloadRoute)
+
+app.get('/status', quaryHasId, statusRoute);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
-
-app.get('/ejs', async (request, response) => {
-  const filePath = path.join(__dirname, "../src/print.ejs");
-  const data = await getData();
-  const svg = candlestickChart(data, { yLabel: 'USD' });
-
-  ejs.renderFile(filePath, { svg }, (err, html) => {
-    if (err) {
-      return response.send('Cannot read file');
-    }
-
-    return response.send(html);
-  })
-
-})
-
-app.get('/print', async (request, response) => {
-
-  await printPdf();
-  response.send('done');
-})
+  console.log(`Crypto price app listening on port ${port}`)
+});

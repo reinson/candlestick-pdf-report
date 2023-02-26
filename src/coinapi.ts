@@ -1,7 +1,7 @@
 import axios from 'axios';
 import fs from 'fs';
+import { TimePeriod } from './generate-route';
 
-const COINAPI_URL = 'https://rest.coinapi.io/v1/exchangerate/EUR/USD/history';
 const token = readToken('token.txt');
 
 type ApiQuote = {
@@ -24,6 +24,21 @@ export type Quote = {
         high: number,
         low: number,
         close: number,
+    }
+}
+
+const getPeriodOptions = (key: TimePeriod) => {
+    switch (key) {
+        case TimePeriod.DAY:
+            return { periodId: '15MIN', startDate: '2023-02-24' };
+        case TimePeriod.WEEK:
+            return { periodId: '2HRS', startDate: '2023-02-17' };
+        case TimePeriod.MONTH:
+            return { periodId: '1DAY', startDate: '2023-01-24' };
+        case TimePeriod.QUARTER:
+            return { periodId: '1DAY', startDate: '2022-11-24' };
+        case TimePeriod.YEAR:
+            return { periodId: '7DAY', startDate: '2022-02-24' };
     }
 }
 
@@ -52,23 +67,17 @@ export const getStoredData = (name: string): Quote[] => {
     return data.map(transformQuotes);
 }
 
-
-export const getData = async (writeToFile?: boolean): Promise<Quote[]> => {
-    console.log('getting data')
-    const { data } = await axios.get(COINAPI_URL, {
+export const getData = async (coin: string, period: TimePeriod): Promise<Quote[]> => {
+    const { periodId, startDate } = getPeriodOptions(period);
+    const { data } = await axios.get(`https://rest.coinapi.io/v1/exchangerate/${coin}/USD/history`, {
         params: {
-            period_id: '10DAY',
-            time_start: '2021-01-01T00:00:00',
-            time_end: '2023-02-23T00:00:00'
+            period_id: periodId,
+            time_start: startDate,
         },
         headers: {
             'X-CoinAPI-Key': token,
         }
     });
-
-    if (writeToFile) {
-        writeData(data, '1MIN_YTD');
-    }
 
     return data.map(transformQuotes);
 }
@@ -79,17 +88,4 @@ function readToken(fileName: string) {
     } catch (err) {
         console.log('Feiled to read api token from file');
     }
-}
-
-function writeData(data, name) {
-    const jsonContent = JSON.stringify(data);
-
-    fs.writeFile(`./data/${name}.json`, jsonContent, 'utf8', function (err) {
-        if (err) {
-            console.log('An error occured while writing JSON Object to File.');
-            return console.log(err);
-        }
-
-        console.log('JSON file has been saved.');
-    });
 }

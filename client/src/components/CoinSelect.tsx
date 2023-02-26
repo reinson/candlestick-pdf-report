@@ -1,9 +1,15 @@
 import React from 'react';
 import Select from 'react-select';
+import styles from './CoinSelect.module.css';
 
 type CoinSelectProps = {
-    selectedCoin: string | null;
-    setSelectedCoin: (coin: string | null) => void
+    setSelectedCoin: (coin: CoinOption | null) => void
+}
+
+export type CoinOption = {
+    label: string;
+    icon: string;
+    value: string;
 }
 
 const options = [
@@ -12,32 +18,24 @@ const options = [
     { value: 'TOR', label: 'TOR', icon: 'https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_32/ebd3726585004a99926148fbc0689529.png' },
 ];
 
-//@ts-ignore
-const CustomOption = ({ innerProps, isDisabled, data }) =>
-    !isDisabled ? (
-        <div {...innerProps}>{
-            <div>
-                <span>
-                    <img src={data.icon} alt={`${data.label}-icon`}></img>
-                </span>
-                <span>{data.label}</span>
-            </div>
-        }</div>
-    ) : null;
+const formatOptionLabel = ({ label, icon }: CoinOption) => (
+    <div className={styles.coinOption}>
+        <img className={styles.icon} src={icon} alt={`${label}-icon`}></img>
+        <span>{label}</span>
+    </div>
+);
 
-
-export default function CoinSelect({ setSelectedCoin, selectedCoin }: CoinSelectProps) {
-
-
+export default function CoinSelect({ setSelectedCoin }: CoinSelectProps) {
     return (
-        <div className="Coin-select">
+        <div className={styles.coinSelect}>
+            <span>Select coin: </span>
             <Select
+                className={styles.select}
                 isSearchable={true}
-                defaultValue={selectedCoin}
                 onChange={setSelectedCoin}
-                //@ts-ignore
                 options={options}
-                components={{ Option: CustomOption }}
+                formatOptionLabel={formatOptionLabel}
+                placeholder=''
             />
         </div>
     );
