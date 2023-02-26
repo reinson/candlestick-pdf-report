@@ -54,11 +54,11 @@ const createHTML = async (coin: string, period: TimePeriod, id: string) => {
     });
     const page = await browser.newPage();
 
-    await page.setContent(html);
+    await page.setContent(html, { waitUntil: 'networkidle0' })
 
     const pdf = await page.pdf({
         printBackground: true,
-        format: 'Letter'
+        format: 'Letter',
     })
 
     await browser.close()
@@ -66,7 +66,7 @@ const createHTML = async (coin: string, period: TimePeriod, id: string) => {
     const reportPath = path.join(__dirname, `../../../reports/${id}.pdf`);
     writeFile(reportPath, pdf, {}, (err) => {
         if (err) {
-            throw err;
+            updateJobStatus(id, JobStatus.Failed);
         }
 
         updateJobStatus(id, JobStatus.Done)
