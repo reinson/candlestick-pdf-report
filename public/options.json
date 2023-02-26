@@ -11,7 +11,6 @@
     { "key": "XLM", "label": "Stellar Lumens", "icon": "99ab21c646f04f17b919a433eeeb816d.png" },
     { "key": "BUSD", "label": "Binance USD", "icon": "fd7b05c768f7424fb3858c6d03efd1f8.png" },
     { "key": "GAS", "label": "Gas", "icon": "b860834ad5374b9b8bd0cde4164dd733.png" },
-    { "key": "BTCA", "label": "Bitair", "icon": "5114f7d25f954927852df21413ec210d.png" },
     { "key": "SNT", "label": "Status", "icon": "cc400c687f6346b8a669ac038fbcf25f.png" },
     { "key": "BIFI", "label": "BIFI", "icon": "006b92ce9af14e7b918ed7f36c46742e.png" },
     { "key": "BCH", "label": "Bitcoin Cash", "icon": "a7587cc1505544ecbc577b56f17d38f9.png" },

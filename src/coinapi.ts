@@ -30,16 +30,23 @@ export type Quote = {
 const getPeriodOptions = (key: TimePeriod) => {
     switch (key) {
         case TimePeriod.DAY:
-            return { periodId: '15MIN', startDate: '2023-02-24' };
+            return { periodId: '15MIN', startDate: substractDaysFromNow(1) };
         case TimePeriod.WEEK:
-            return { periodId: '2HRS', startDate: '2023-02-17' };
+            return { periodId: '4HRS', startDate: substractDaysFromNow(7) };
         case TimePeriod.MONTH:
-            return { periodId: '1DAY', startDate: '2023-01-24' };
+            return { periodId: '1DAY', startDate: substractDaysFromNow(30) };
         case TimePeriod.QUARTER:
-            return { periodId: '1DAY', startDate: '2022-11-24' };
+            return { periodId: '1DAY', startDate: substractDaysFromNow(90)};
         case TimePeriod.YEAR:
-            return { periodId: '7DAY', startDate: '2022-02-24' };
+            return { periodId: '7DAY', startDate: substractDaysFromNow(365) };
     }
+}
+
+const substractDaysFromNow = (days: number) => {
+    const date = new Date();
+    const newDate = new Date(date.getTime() - 1000 * 60 * 60 * 24 * days);
+
+    return newDate.toISOString();
 }
 
 const transformQuotes = (quote: ApiQuote): Quote => ({
