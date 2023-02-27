@@ -1,6 +1,5 @@
 import crypto from 'crypto';
-
-export const ERR_UNKNOWN_JOB = 'Unknown job';
+import { ERR_UNKNOWN_JOB } from './errors';
 
 export enum JobStatus {
     Pending = 'PENDING',

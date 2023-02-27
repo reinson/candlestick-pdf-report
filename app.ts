@@ -4,7 +4,6 @@ import { downloadRoute } from './src/routes/download-route';
 import { statusRoute } from './src/routes/status-route';
 
 const app = express();
-const port = 3001;
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -15,6 +14,4 @@ app.get('/download', downloadRoute)
 
 app.get('/status', statusRoute);
 
-app.listen(port, () => {
-  console.log(`Crypto price app listening on port ${port}`)
-});
+export default app;
