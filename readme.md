@@ -1,10 +1,10 @@
-# Crypto price report
+# Candlestick chart price report
 
-Fullstack web application for creating PDF price reports of cryptocurrencies.
+Fullstack web application for creating candlistick price reports in PDF format.
 
 ## How it works
 
-* Fetches historical prices from [CoinAPI.io](https://www.coinapi.io/).
+* Fetches historical prices of cryptocurrencies from [CoinAPI.io](https://www.coinapi.io/).
 * FE is based on [create-react-app](https://create-react-app.dev/)
 * Uses [D3](https://www.npmjs.com/package/d3) for creating a svg graph for the report. Candlestick chart is a modified version of a work shared in [this](https://observablehq.com/@d3/candlestick-chart) Observablehq notebook
 * [EJS](https://www.npmjs.com/package/ejs) for SSR of a template HTML
@@ -12,7 +12,7 @@ Fullstack web application for creating PDF price reports of cryptocurrencies.
 
 ## Development
 
-1. Create file `token.txt` to root directory and add CoinAPI token on the first line as plain text. Repository also contains some example data files in the `/data` directory, but these are not used by default.
+1. Create file `token.txt` to root directory and add CoinAPI api token on the first line as plain text. Repository also contains some example data files in the `/data` directory, but these are not used by default.
 2. Install dependencies for BE with running `npm i`.
 3. Install dependencies for FE with running `npm i` in `/client` directory
 4. Build tsc with `npm run build`
