@@ -61,5 +61,3 @@ const createReport = async (coin: string, period: TimePeriod, id: string) => {
     const reportPath = path.join(__dirname, `../../../reports/${id}.pdf`);
     writeFileSync(reportPath, pdf);
 }
-
-
