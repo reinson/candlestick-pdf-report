@@ -13,16 +13,12 @@ function App() {
   const [error, setError] = useState<string | null>('');
 
   const onSubmit = async () => {
-    if (isLoading) {
-      return;
-    }
-
     setIsLoading(true);
     setReportId(null);
 
     const jobId = await makeGenerateRequest(selectedCoin?.key, timePeriod?.key).catch(() => setError('Something went wrong'));
 
-    while (jobId && !error) {
+    while (jobId) {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       const result = await fetch(`/status?id=${jobId}`);
@@ -30,7 +26,7 @@ function App() {
 
       switch (status) {
         case 'DONE': {
-          setReportId(`http://localhost:3001/download?id=${jobId}`);
+          setReportId(jobId);
           setIsLoading(false);
           return;
         }
@@ -43,16 +39,14 @@ function App() {
     }
   }
 
-  const showSubmitButton = selectedCoin && timePeriod && !error;
-
   return (
     <div className='App'>
       <h1>Crypto price report</h1>
       <div style={{ width: '230px' }}>
         <CoinSelect setSelectedCoin={setSelectedCoin} />
         <PeriodSelect setSelectedPeriod={setTimePeriod} />
-        {showSubmitButton && <Button onClick={onSubmit} loading={isLoading} />}
-        {reportId && !error && <a href={reportId}>download</a>}
+        {selectedCoin && timePeriod && !error && <Button onSubmit={onSubmit} loading={isLoading} />}
+        {reportId && !error && <a href={`http://localhost:3001/download?id=${reportId}`}>download</a>}
         {error && <div style={{ color: 'red' }}>{error}</div>}
       </div>
     </div>
