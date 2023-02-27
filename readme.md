@@ -11,9 +11,11 @@ Fullstack web application for creating PDF price reports of cryptocurrencies.
 
 ## Development
 
-1. Install dependencies for BE with running `npm i`.
-2. Install dependencies for FE with running `npm i` in `/client` directory
-3. Build tsc with `npm run build`
-4. Start BE with `npm run start`
-5. Start FE with `npm run start:FE`
-6. Navigate to `http://localhost:3000/` to test it out
+1. Create file `token.txt` to root directory and add CoinAPI token on the first line as plain text. Repository also contains some example data files in the `/data` directory, but these are not used by default.
+2. Install dependencies for BE with running `npm i`.
+3. Install dependencies for FE with running `npm i` in `/client` directory
+4. Build tsc with `npm run build`
+5. Start BE with `npm run start`
+6. Start FE with `npm run start:FE`
+7. Navigate to `http://localhost:3000/` to test it out
+
