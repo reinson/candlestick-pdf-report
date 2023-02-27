@@ -12,26 +12,28 @@ function App() {
   const [reportId, setReportId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>('');
 
+  const setGeneralError = () => setError('Something went wrong');
+
   const onSubmit = async () => {
     setIsLoading(true);
     setReportId(null);
 
-    const jobId = await makeGenerateRequest(selectedCoin?.key, timePeriod?.key).catch(() => setError('Something went wrong'));
+    const jobId = await makeGenerateRequest(selectedCoin?.key, timePeriod?.key).catch(setGeneralError);
 
     while (jobId) {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      const result = await fetch(`/status?id=${jobId}`);
-      const { status } = await result.json();
+      const status = await makeStatusPingRequest(jobId).catch(setGeneralError);
 
       switch (status) {
+        case 'PENDING': {
+          await new Promise((resolve) => setTimeout(resolve, 500));
+          break;
+        }
         case 'DONE': {
           setReportId(jobId);
           setIsLoading(false);
           return;
         }
-
-        case 'FAILED': {
+        default: {
           setError('Report generation failed');
           return;
         }
@@ -51,6 +53,12 @@ function App() {
       </div>
     </div>
   );
+}
+
+const makeStatusPingRequest = async (jobId: string) => {
+  const result = await fetch(`/status?id=${jobId}`)
+  const { status } = await result.json();
+  return status;
 }
 
 const makeGenerateRequest = async (coin: string | undefined, period: string | undefined) => {
