@@ -19,3 +19,6 @@ Fullstack web application for creating PDF price reports of cryptocurrencies.
 6. Start FE with `npm run start:FE`
 7. Navigate to `http://localhost:3000/` to test it out
 
+## Example report
+
+See example report in root direcotry ([example-report.pdf](https://github.com/reinson/crypto-price-report/blob/master/example-report.pdf))
