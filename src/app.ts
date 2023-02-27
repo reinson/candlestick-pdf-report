@@ -1,7 +1,7 @@
 import express from 'express';
-import { generateRoute, generateRouteValidation } from './src/routes/generate-route';
-import { downloadRoute } from './src/routes/download-route';
-import { statusRoute } from './src/routes/status-route';
+import { generateRoute, generateRouteValidation } from './routes/generate-route';
+import { downloadRoute } from './routes/download-route';
+import { statusRoute } from './routes/status-route';
 
 const app = express();
 

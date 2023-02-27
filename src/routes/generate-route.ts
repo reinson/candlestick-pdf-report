@@ -1,23 +1,10 @@
 import { Request, Response } from 'express';
-import { JobStatus, startJob, updateJobStatus } from '../jobsModel';
-import path from 'path';
-import ejs from 'ejs';
-import { getData, getPeriodOptions } from '../coinapi';
-import { candlestickChart } from '../reportUtils/candlestick';
-import { writeFileSync } from 'fs';
+
+import { startJob } from '../jobsModel';
 import { body, validationResult } from 'express-validator';
 import options from '../../public/options.json';
-import createPdf from '../reportUtils/puppeteerPdfGeneration';
-
-export enum TimePeriod {
-    DAY = 'DAY',
-    WEEK = 'WEEK',
-    MONTH = 'MONTH',
-    QUARTER = 'QUARTER',
-    YEAR = 'YEAR',
-}
-
-const coinLookup = Object.fromEntries(options.map(coinData => [coinData.key, coinData]));
+import { createReportAsync } from '../report/createReportAsync';
+import { TimePeriod } from '../coinapi';
 
 export const generateRouteValidation = [
     body('coin').isIn(options.map(option => option.key)),
@@ -35,29 +22,8 @@ export const generateRoute = async (req: Request, res: Response) => {
     const id = startJob();
     const { coin, period } = req.body;
 
-    try {
-        await createReport(coin as string, period as TimePeriod, id);
-        updateJobStatus(id, JobStatus.Done);
+    createReportAsync(coin, period, id);
 
-        res.set('content-type', 'text/plain');
-        res.send(id);
-    } catch (err) {
-        console.log(err);
-        updateJobStatus(id, JobStatus.Failed);
-        res.sendStatus(500);
-    }
+    res.set('content-type', 'text/plain');
+    res.send(id);
 };
-
-const createReport = async (coin: string, period: TimePeriod, id: string) => {
-    const data = await getData(coin, period);
-    const svg = candlestickChart(data);
-
-    const templatePath = path.join(__dirname, '../../../src/reportUtils/template.ejs');
-    const periodData = getPeriodOptions(period);
-    const html = await ejs.renderFile(templatePath, { svg, coinData: coinLookup[coin], periodData });
-
-    const pdf = await createPdf(html);
-
-    const reportPath = path.join(__dirname, `../../../reports/${id}.pdf`);
-    writeFileSync(reportPath, pdf);
-}

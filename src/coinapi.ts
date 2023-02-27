@@ -1,6 +1,5 @@
 import axios from 'axios';
 import fs from 'fs';
-import { TimePeriod } from './routes/generate-route';
 
 const token = readToken('token.txt');
 
@@ -27,6 +26,41 @@ export type Quote = {
     }
 }
 
+export enum TimePeriod {
+    DAY = 'DAY',
+    WEEK = 'WEEK',
+    MONTH = 'MONTH',
+    QUARTER = 'QUARTER',
+    YEAR = 'YEAR',
+}
+
+export const getData = async (coin: string, period: TimePeriod): Promise<Quote[]> => {
+    const { periodId, startDate } = getPeriodOptions(period);
+    const { data } = await axios.get(`https://rest.coinapi.io/v1/exchangerate/${coin}/USD/history`, {
+        params: {
+            period_id: periodId,
+            time_start: startDate,
+        },
+        headers: {
+            'X-CoinAPI-Key': token,
+        }
+    });
+
+    return data.map(transformQuotes);
+}
+
+const transformQuotes = (quote: ApiQuote): Quote => ({
+    start: new Date(quote.time_period_start),
+    end: new Date(quote.time_period_end),
+    date: middleDate(quote.time_period_start, quote.time_period_end),
+    rate: {
+        open: quote.rate_open,
+        high: quote.rate_high,
+        low: quote.rate_low,
+        close: quote.rate_close,
+    }
+});
+
 export const getPeriodOptions = (key: TimePeriod) => {
     switch (key) {
         case TimePeriod.DAY:
@@ -49,18 +83,6 @@ const substractDaysFromNow = (days: number) => {
     return newDate.toISOString();
 }
 
-const transformQuotes = (quote: ApiQuote): Quote => ({
-    start: new Date(quote.time_period_start),
-    end: new Date(quote.time_period_end),
-    date: middleDate(quote.time_period_start, quote.time_period_end),
-    rate: {
-        open: quote.rate_open,
-        high: quote.rate_high,
-        low: quote.rate_low,
-        close: quote.rate_close,
-    }
-});
-
 const middleDate = (start: string, end: string): Date => {
     const startDate = new Date(start);
     const endDate = new Date(end);
@@ -70,21 +92,6 @@ const middleDate = (start: string, end: string): Date => {
 
 export const getStoredData = (name: string): Quote[] => {
     const data = JSON.parse(fs.readFileSync(`./data/${name}.json`, 'utf-8'));
-
-    return data.map(transformQuotes);
-}
-
-export const getData = async (coin: string, period: TimePeriod): Promise<Quote[]> => {
-    const { periodId, startDate } = getPeriodOptions(period);
-    const { data } = await axios.get(`https://rest.coinapi.io/v1/exchangerate/${coin}/USD/history`, {
-        params: {
-            period_id: periodId,
-            time_start: startDate,
-        },
-        headers: {
-            'X-CoinAPI-Key': token,
-        }
-    });
 
     return data.map(transformQuotes);
 }

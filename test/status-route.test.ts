@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app from '../app';
+import app from '../src/app';
 import { ERR_UNKNOWN_JOB } from '../src/errors';
 
 jest.mock('../src/jobsModel');

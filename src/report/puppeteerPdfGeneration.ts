@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 
-export default async (html: string) => {
+export const createPdf = async (html: string) => {
     const browser = await puppeteer.launch({
         headless: true,
         waitForInitialPage: true,

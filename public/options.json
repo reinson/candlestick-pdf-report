@@ -3,8 +3,6 @@
     { "key": "BTC", "label": "Bitcoin", "icon": "4caf2b16a0174e26a3482cea69c34cba.png" },
     { "key": "ETH", "label": "Ethereum", "icon": "604ae4533d9f4ad09a489905cce617c2.png" },
     { "key": "GNT", "label": "Golem", "icon": "5aa9229d63c643409bbfefe0754863ea.png" },
-    { "key": "SPACE", "label": "SpaceCoin", "icon": "34610a48dc194f0997283d4193b29e27.png" },
-    { "key": "TALK", "label": "BTCtalkcoin", "icon": "9d87a51118d54610b3a15a9f8015560a.png" },
     { "key": "LUNA", "label": "Luna Coin", "icon": "855b602c464d4ce2a149a622cbef75e0.png" },
     { "key": "LTC", "label": "Litecoin", "icon": "a201762f149941ef9b84e0742cd00e48.png" },
     { "key": "XLM", "label": "Stellar Lumens", "icon": "99ab21c646f04f17b919a433eeeb816d.png" },
